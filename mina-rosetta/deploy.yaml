@@ -1,0 +1,53 @@
+---
+version: "2.0"
+services:
+  mina:
+    image: minaprotocol/mina-rosetta:3.0.0-93e0279-focal
+    expose:
+      - port: 8302 # P2P
+        as: 8302
+        to:
+          - global: true
+      - port: 3081 # daemon listens to client requests
+        as: 3081
+        to:
+          - global: true
+      - port: 3085 # GraphQL API (accessible via localhost:3085/graphql)
+        as: 3085
+        to:
+          - global: true
+      - port: 3086 # PostgreSQL
+        as: 3086
+        to:
+          - global: true
+      - port: 3087 # Rosetta API
+        as: 3087
+        to:
+          - global: true
+    env:
+      - MINA_NETWORK=mainnet
+      - PEERS_LIST_URL=https://storage.googleapis.com/mina-seed-lists/mainnet_seeds.txt
+      - MINA_ARCHIVE_DUMP_URL=https://storage.googleapis.com/mina-archive-dumps
+      - MINA_GENESIS_LEDGER_URL=http://673156464838-mina-genesis-ledgers.s3-website-us-west-2.amazonaws.com/mainnet/genesis_ledger.json
+      - BLOCKS_BUCKET=https://storage.googleapis.com/mina_network_block_data
+profiles:
+  compute:
+    mina:
+      resources:
+        cpu:
+          units: 8
+        memory:
+          size: 32GB
+        storage:
+          - size: 64Gi
+  placement:
+    dcloud:
+      pricing:
+        mina:
+          denom: uakt
+          amount: 10000
+deployment:
+  mina:
+    dcloud:
+      profile: mina
+      count: 1
