@@ -19,7 +19,7 @@ Use your API keys as the environment in the [deploy.yaml](deploy.yaml) file.
 Deploy on [Akash Console](https://console.akash.network/) with the configured [deploy.yaml](deploy.yaml) file.
 
 ## Errors
-Flux Schnell has a limit of 12 for `Number of Inference Steps`: 12. Setting it higher will result in an error `Error generating image: Event loop is closed`
+Flux Schnell has a limit for `Number of Inference Steps`: 12. Setting it higher will result in an error `Error generating image: Event loop is closed`
 
 ## Documentation
 [Source code on GitHub](https://github.com/russmckendrick/flux-fal-openai-streamlit)
