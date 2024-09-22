@@ -2,6 +2,8 @@
 
 The code to accompany the [Unlocking Image Creation with Flux and GPT-4o](https://www.russ.cloud/2024/08/11/unlocking-image-creation-with-flux-and-gpt-4o/) blog post.
 
+URI of app deployed on Akash with my own Fal.ai API key: http://provider.akash-palmito.org:32607/
+
 ## The Idea
 Use Streamlit to build an interface to interact with the fal.ai API and the Flux family of models. It should also use GPT4o to help tune the prompt to give us the best shot at getting a good result from Flux.
 
@@ -15,6 +17,9 @@ Use your API keys as the environment in the [deploy.yaml](deploy.yaml) file.
 
 ## Running the application
 Deploy on [Akash Console](https://console.akash.network/) with the configured [deploy.yaml](deploy.yaml) file.
+
+## Errors
+Flux Schnell has a limit of 12 for `Number of Inference Steps`: 12. Setting it higher will result in an error `Error generating image: Event loop is closed`
 
 ## Documentation
 [Source code on GitHub](https://github.com/russmckendrick/flux-fal-openai-streamlit)
