@@ -1,0 +1,34 @@
+---
+version: "2.0"
+services:
+  streamlit:
+    env:
+      - FAL_KEY=put-your-fal.ai-key-here
+      - OPENAI_API_KEY=put-your-openai-key-here
+    image: rexayop/flux-fal-openai-streamlit:0.1
+    expose:
+      - port: 8501
+        as: 8501
+        to:
+          - global: true
+profiles:
+  compute:
+    streamlit:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 1GB
+        storage:
+          - size: 1Gi
+  placement:
+    dcloud:
+      pricing:
+        streamlit:
+          denom: uakt
+          amount: 10000
+deployment:
+  streamlit:
+    dcloud:
+      profile: streamlit
+      count: 1
