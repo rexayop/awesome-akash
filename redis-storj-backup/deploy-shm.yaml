@@ -1,0 +1,68 @@
+---
+version: "2.0"
+services:
+  redis:
+    image: "redis:8.2.1"
+    expose:
+      - port: 6379
+        as: 6379
+        to:
+          - global: true
+          - service: backup
+    params:
+      storage:
+        shm:
+          mount: /dev/shm
+          readOnly: false
+  backup:
+    image: "rexayop/redis-storj-backup:0.8"
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+    env:
+      - STORJ_GRANT=$STORJ_GRANT
+      - BACKUP_SCHEDULE=0 2 * * *  # Default: daily at 2 AM
+      - BUCKET_NAME=$BUCKET_NAME
+profiles:
+  compute:
+    redis:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 512Mi
+        storage:
+          - size: 1Gi
+          - name: shm
+            size: 10Gi
+            attributes:
+              persistent: false
+              class: ram
+    backup:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 512Mi
+        storage:
+          - size: 1Gi
+  placement:
+    dcloud:
+      pricing:
+        redis:
+          denom: uakt
+          amount: 100000
+        backup:
+          denom: uakt
+          amount: 100000
+deployment:
+  redis:
+    dcloud:
+      profile: redis
+      count: 1
+  backup:
+    dcloud:
+      profile: backup
+      count: 1
